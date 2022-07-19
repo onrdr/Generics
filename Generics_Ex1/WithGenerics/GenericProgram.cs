@@ -1,5 +1,4 @@
-﻿
-using Generics_Ex1.Models;
+﻿using Generics_Ex1.Models;
 
 namespace Generics_Ex1.WithGenerics
 {
@@ -10,18 +9,19 @@ namespace Generics_Ex1.WithGenerics
             List<Person> people = new();
             List<LogEntry> logs = new();
 
-            string peopleFile = @"C:\Users\onrdr\source\repos\Generics\Generics_Ex1\people.csv";
-            string logFile = @"C:\Users\onrdr\source\repos\Generics\Generics_Ex1\logs.csv";
+            string peopleFile = @"C:\Users\onrdr\source\repos\Generics\Generics_Ex1\people_new.csv";
+            string logFile = @"C:\Users\onrdr\source\repos\Generics\Generics_Ex1\logs_new.csv";
 
             PopulateLists(people, logs);
 
-            // OriginalTextFileProcessor.SaveLogs(logs, logFile);
-            //var newLogs = OriginalTextFileProcessor.LoadLogs(logFile);
-            //newLogs.ForEach(log => Console.WriteLine($"{log.ErrorCode}: \t{log.Message} \tat {log.TimeOfEvent.ToShortTimeString()}"));
+            GenericTextFileProcessor.SaveToTextFile(people, peopleFile);
+            GenericTextFileProcessor.SaveToTextFile(logs, logFile);
 
-            //OriginalTextFileProcessor.SavePeople(people, peopleFile);
-            //var newPeople = OriginalTextFileProcessor.LoadPeople(peopleFile);
-            //newPeople.ForEach(p => Console.WriteLine($"{p.FirstName} {p.LastName} (Is Alive : {p.IsAlive})"));
+            var newLogs = GenericTextFileProcessor.LoadFromTextFile<LogEntry>(logFile);
+            newLogs.ForEach(log => Console.WriteLine($"{log.ErrorCode}: \t{log.Message} \tat {log.TimeOfEvent.ToShortTimeString()}"));
+
+            var newPeople = GenericTextFileProcessor.LoadFromTextFile<Person>(peopleFile);
+            newPeople.ForEach(p => Console.WriteLine($"{p.FirstName} {p.LastName} (Is Alive : {p.IsAlive})"));
         }
 
         static void PopulateLists(List<Person> people, List<LogEntry> logs)

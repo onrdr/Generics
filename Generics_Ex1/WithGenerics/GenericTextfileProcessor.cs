@@ -2,7 +2,7 @@
 
 namespace Generics_Ex1.WithGenerics
 {
-    public static class GenericTextfileProcessor
+    public static class GenericTextFileProcessor
     {
         public static List<T> LoadFromTextFile<T>(string filePath) where T : class, new()
         {
@@ -49,14 +49,14 @@ namespace Generics_Ex1.WithGenerics
             return output;
         }
 
-        public static void SaveToTextFile<T>(List<T> data, string filePath) where T : class, new()
+        public static void SaveToTextFile<T>(List<T> data, string filePath) where T : class
         {
             List<string> lines = new();
             StringBuilder line = new();
 
             if (data == null || data.Count == 0)
             {
-                throw new ArgumentNullException("data", "You must populate the data parameter with at least ...");
+                throw new ArgumentNullException(nameof(data), "You must populate the data parameter with at least one value.");
             }
             var cols = data[0].GetType().GetProperties();
 
@@ -64,11 +64,24 @@ namespace Generics_Ex1.WithGenerics
             foreach (var col in cols)
             {
                 line.Append(col.Name);
-                line.Append(',');
+                line.Append(','); 
+            } 
+            /* Adds the column header entries to the first line (removing the last comma from the and first) */
+            lines.Add(line.ToString()[..(line.Length - 1)]);
 
-                /* Adds the column header entries to the first line (removing the last comma from the and first) */
-                lines.Add(line.ToString().Substring(0, line.Length - 1));
-            }
+            data.ForEach(row =>
+            {
+                line = new StringBuilder();
+
+                foreach (var col in cols)
+                {
+                    line.Append(col.GetValue(row));
+                    line.Append(',');
+                } 
+                /* Adds the row to the set of lines (removing the last comma from the end first). */
+                lines.Add(line.ToString()[..(line.Length - 1)]);
+            }); 
+             
             File.WriteAllLines(filePath, lines); 
         } 
     }

@@ -13,13 +13,13 @@ namespace Generics_Ex1.WithoutGenerics
 
             PopulateLists(people, logs);
 
-            // OriginalTextFileProcessor.SaveLogs(logs, logFile);
-            //var newLogs = OriginalTextFileProcessor.LoadLogs(logFile);
-            //newLogs.ForEach(log => Console.WriteLine($"{log.ErrorCode}: \t{log.Message} \tat {log.TimeOfEvent.ToShortTimeString()}"));
+            OriginalTextFileProcessor.SaveLogs(logs, logFile);
+            var newLogs = OriginalTextFileProcessor.LoadLogs(logFile);
+            newLogs.ForEach(log => Console.WriteLine($"{log.ErrorCode}: \t{log.Message} \tat {log.TimeOfEvent.ToShortTimeString()}"));
 
-            //OriginalTextFileProcessor.SavePeople(people, peopleFile);
-            //var newPeople = OriginalTextFileProcessor.LoadPeople(peopleFile);
-            //newPeople.ForEach(p => Console.WriteLine($"{p.FirstName} {p.LastName} (Is Alive : {p.IsAlive})"));
+            OriginalTextFileProcessor.SavePeople(people, peopleFile);
+            var newPeople = OriginalTextFileProcessor.LoadPeople(peopleFile);
+            newPeople.ForEach(p => Console.WriteLine($"{p.FirstName} {p.LastName} (Is Alive : {p.IsAlive})"));
         }
 
         static void PopulateLists(List<Person> people, List<LogEntry> logs)
